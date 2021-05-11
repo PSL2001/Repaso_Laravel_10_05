@@ -1,6 +1,7 @@
 <x-plantilla>
     <x-slot name="titulo">Gestion</x-slot>
     <x-slot name="cabecera">Gestion de las Tiendas del Sur</x-slot>
+    <x-mensajes/>
     <a href="{{route('tiendas.create')}}" class="btn btn-success mt-2"><i class="fas fa-plus"></i> Crear tienda</a>
     <table class="table">
   <thead>
@@ -8,7 +9,7 @@
       <th scope="col">Detalle</th>
       <th scope="col">Nombre</th>
       <th scope="col">Localidad</th>
-      <th scope="col" colspan="2">Acciones</th>
+      <th scope="col" colspan="2" class="text-center">Acciones</th>
     </tr>
   </thead>
   <tbody>
@@ -19,8 +20,14 @@
       </th>
       <td>{{$item->nombre}}</td>
       <td>{{$item->localidad}}</td>
-      <td>boton editar</td>
-      <td>boton borrar</td>
+      <td class="text-center">boton editar</td>
+      <td class="text-center">
+        <form name="ad" method="POST" action="{{route('tiendas.destroy', $item)}}">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Borrar</button>
+        </form>
+      </td>
     </tr>
     @endforeach
   </tbody>

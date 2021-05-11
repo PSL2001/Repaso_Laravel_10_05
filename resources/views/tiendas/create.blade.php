@@ -1,6 +1,7 @@
 <x-plantilla>
     <x-slot name="titulo">Creacion</x-slot>
     <x-slot name="cabecera">Creando tienda en Tiendas del Sur</x-slot>
+    <x-errores />
     <form name="sd" method="POST" action="{{route('tiendas.store')}}" class="p-4 bg-secondary text-light">
         @csrf
         <x-form-input name="nombre" label="Nombre Tienda" />
