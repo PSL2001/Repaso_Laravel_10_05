@@ -12,7 +12,9 @@
         <li class="nav-item">
           <a class="nav-link" href="{{route('tiendas.index')}}"><i class="fas fa-cogs"></i> Gestionar Tiendas</a>
         </li>
-        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('trabajadores.index')}}"><i class="fas fa-cogs"></i> Gestionar Trabajadores</a>
+          </li>
       </ul>
     </div>
   </div>

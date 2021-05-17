@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TiendaController;
+use App\Http\Controllers\TrabajadorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,4 @@ Route::get('/', function () {
 
 //Mis rutas
 Route::resource('tiendas', TiendaController::class);
+Route::resource('trabajadores', TrabajadorController::class);

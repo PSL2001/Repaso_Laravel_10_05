@@ -20,7 +20,9 @@
       </th>
       <td>{{$item->nombre}}</td>
       <td>{{$item->localidad}}</td>
-      <td class="text-center">boton editar</td>
+      <td class="text-center">
+          <a href="{{route('tiendas.edit', $item)}}" class="btn btn-warning"><i class="fas fa-edit"></i> Editar</a>
+      </td>
       <td class="text-center">
         <form name="ad" method="POST" action="{{route('tiendas.destroy', $item)}}">
             @csrf
