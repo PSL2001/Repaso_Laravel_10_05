@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tienda;
 use App\Models\Trabajador;
+use Exception;
 use Illuminate\Http\Request;
 
 class TrabajadorController extends Controller
@@ -38,7 +39,20 @@ class TrabajadorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //1. Validamos los datos
+        $request->validate([
+            'nombre'=>['required', 'string', 'min:4', 'max:35'],
+            'apellidos'=>['required', 'string', 'min:8', 'max:80'],
+            'email'=>['required', 'string', 'unique:trabajadors,email'],
+            'tienda_id'=>['required']
+        ]);
+        //2. - Procesamos los datos para hacer el insert
+        try {
+            Trabajador::create($request->all());
+            return redirect()->route('trabajadores.index')->with('mensaje', 'Trabajador creado');
+        } catch (Exception $ex) {
+            return redirect()->route('trabajadores.index')->with('mensaje', 'Error al crear trabajador');
+        }
     }
 
     /**
@@ -60,7 +74,8 @@ class TrabajadorController extends Controller
      */
     public function edit(Trabajador $trabajadore)
     {
-        //
+        $misTiendas = Tienda::getArrayIdNombre();
+        return view('trabajadores.edit', compact('trabajadore', 'misTiendas'));
     }
 
     /**
@@ -72,7 +87,20 @@ class TrabajadorController extends Controller
      */
     public function update(Request $request, Trabajador $trabajadore)
     {
-        //
+        //1. Validamos los datos
+        $request->validate([
+            'nombre'=>['required', 'string', 'min:4', 'max:35'],
+            'apellidos'=>['required', 'string', 'min:8', 'max:80'],
+            'email'=>['required', 'string', 'unique:trabajadors,email,'.$trabajadore->id],
+            'tienda_id'=>['required']
+        ]);
+        //2. - Procesamos los datos para hacer el insert
+        try {
+            $trabajadore->update($request->all());
+            return redirect()->route('trabajadores.index')->with('mensaje', 'Trabajador actualizado');
+        } catch (Exception $ex) {
+            return redirect()->route('trabajadores.index')->with('mensaje', 'Error al actualizar trabajador');
+        }
     }
 
     /**
@@ -83,6 +111,11 @@ class TrabajadorController extends Controller
      */
     public function destroy(Trabajador $trabajadore)
     {
-        //
+        try {
+            $trabajadore->delete();
+        } catch (Exception $ex) {
+            return redirect()->route('trabajadores.index')->with('mensaje', "Error al borrar el trabajador, " . $ex->getMessage());
+        }
+        return redirect()->route('trabajadores.index')->with('mensaje', "Trabajador borrado");
     }
 }
