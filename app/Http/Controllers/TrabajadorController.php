@@ -14,10 +14,22 @@ class TrabajadorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $trabajadores = Trabajador::orderBy('apellidos')->paginate(5);
-        return view('trabajadores.index', compact('trabajadores'));
+        $apellidos['%'] = "Todos";
+        $apellidos[1] = "A-F";
+        $apellidos[2] = "G-M";
+        $apellidos[3] = "N-T";
+        $apellidos[4] = "U-Z";
+
+        if (!isset($request->tienda)) {
+            $request->tienda="%";
+        }
+        $tiendas = Tienda::orderBy('nombre')->get();
+        $trabajadores = Trabajador::orderBy('apellidos')
+        ->tienda($request->tienda)
+        ->paginate(5);
+        return view('trabajadores.index', compact('trabajadores', 'tiendas', 'request', 'apellidos'));
     }
 
     /**

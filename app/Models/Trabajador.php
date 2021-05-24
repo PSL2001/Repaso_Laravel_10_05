@@ -13,4 +13,14 @@ class Trabajador extends Model
     public function tienda() {
         return $this->belongsTo(Tienda::class);
     }
+
+    //Scope-------------------------------
+    public function scopeTienda($query, $v)
+    {
+        if ($v == '%') {
+            return $query->where('tienda_id', 'like', $v);
+        }
+        return $query->where('tienda_id', $v);
+        //$query->where('tienda_id', '='. $v);
+    }
 }

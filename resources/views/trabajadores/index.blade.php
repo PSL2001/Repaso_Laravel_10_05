@@ -2,6 +2,37 @@
     <x-slot name="titulo">Trabajadores</x-slot>
     <x-slot name="cabecera">Gestion de los Trabajadores</x-slot>
     <x-mensajes/>
+    <div class="d-flex flex-row-reverse my-2 py-1">
+        <div>
+            <form action="{{route('trabajadores.index')}}" name="search" class="form-inline">
+                <select name="tienda" class="py-2" onchange="this.form.submit()">
+                    <option value="%">Cualquiera</option>
+                    @foreach ($tiendas as $item)
+                        @if ($request->tienda==$item->id)
+                        <option value="{{$item->id}}" selected>{{$item->nombre}}</option>
+                        @else
+                        <option value="{{$item->id}}">{{$item->nombre}}</option>
+                        @endif
+
+                    @endforeach
+                </select>
+            </form>
+        </div>
+        <div class="py-2">
+            <b>Tienda:</b>&nbsp; &nbsp;
+        </div>
+        <div>
+            <select name="apellidos" class="py-2" onchange="this.form.submit()">
+                @foreach ($apellidos as $k=>$v)
+                    <option value="{{$k}}">{{$v}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="py-2">
+            <i class="fas fa-search"></i>
+            <b>Apellidos: </b>&nbsp;&nbsp;
+        </div>
+    </div>
     <a href="{{route('trabajadores.create')}}" class="btn btn-success mt-2"><i class="fas fa-plus"></i> Crear trabajador</a>
     <table class="table">
   <thead>
@@ -37,6 +68,6 @@
   </tbody>
 </table>
 <div class="mt-2">
-    {{$trabajadores->links()}}
+    {{$trabajadores->withQueryString()->links()}}
 </div>
 </x-plantilla>

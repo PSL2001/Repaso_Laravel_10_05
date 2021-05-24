@@ -13,10 +13,19 @@ class TiendaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tiendas = Tienda::orderBy('nombre')->orderBy('localidad')->paginate(5);
-        return view('tiendas.index', compact('tiendas'));
+        //dd(request->localidad)
+        if (!isset($request->localidad)) {
+            $request->localidad="%";
+        }
+        $localidades = Tienda::orderBy('localidad')->distinct()->get('localidad');
+
+        $tiendas = Tienda::orderBy('nombre')->
+        localidad($request->localidad)->
+        orderBy('localidad')->
+        paginate(5);
+        return view('tiendas.index', compact('tiendas', 'localidades', 'request'));
     }
 
     /**
