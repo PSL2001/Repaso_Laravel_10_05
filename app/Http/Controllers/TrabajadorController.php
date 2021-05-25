@@ -28,6 +28,7 @@ class TrabajadorController extends Controller
         $tiendas = Tienda::orderBy('nombre')->get();
         $trabajadores = Trabajador::orderBy('apellidos')
         ->tienda($request->tienda)
+        ->apellidos($request->apellidos)
         ->paginate(5);
         return view('trabajadores.index', compact('trabajadores', 'tiendas', 'request', 'apellidos'));
     }
